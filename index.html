@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
@@ -15,7 +15,6 @@
 </head>
 
 <body class="bg-secondary">
-
     <div class="container mt-5">
         <div id="shopping-list" class="card">
             <div class="card-header">
@@ -25,44 +24,87 @@
             </div>
             <div class="card-body">
                 <h5 class="card-title">Add new item</h5>
-                <input type="text" class="form-control mb-3" v-model="newItem" placeholder="Add new item" @keyup.enter="saveItem">
-                <button class="btn btn-info" v-bind:disabled="newItem.length === 0" @click="saveItem">Add Items</button>
-                <!-- v-on: and the @ are the same  -->
+                <div class="row">
+                    <div class="col-6">
+                        <input type="text" class="form-control mb-3" v-model="newItem" placeholder="Add new item" />
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="form-control mb-3" v-model="newPrice" placeholder="Add price" @keyup.enter="saveItem" />
+                    </div>
+                </div>
+                <button class="btn btn-info d-block" @click="saveItem">
+            Add Items
+          </button>
                 <div class="my-5">
                     <div class="alert alert-danger" role="alert" v-if="items.length === 0">
                         Huhhh! No item available.
                     </div>
-                    <ol>
-                        <li v-for="item in items">{{ item }}</li>
-                    </ol>
+                    <table class="table table-bordered">
+                        <thead class="bg-info text-white">
+                            <tr>
+                                <td>Item Name</td>
+                                <td>Item Price</td>
+                                <td>Action</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, index) in items">
+                                <td>{{ item.itemName }}</td>
+                                <td>{{ item.price }}</td>
+                                <td>
+                                    <button class="btn btn-danger" @click="delItem(index)">
+                      Delete
+                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
+            <small class="text-muted m-3 text-right">The {{ header.toLocaleLowerCase() }} is {{ footer }}</small
+        >
+      </div>
     </div>
 
-
     <script>
-        var shoppingList = new Vue({
-            el: '#shopping-list',
-            data: {
-                state: 'edit',
-                header: 'Shopping List',
-                newItem: '',
-                items: []
-            },
-            methods: {
-                saveItem: function() {
-                    this.items.push(this.newItem);
-                    this.newItem = "";
-                }
-            }
-        })
+      var shoppingList = new Vue({
+        el: "#shopping-list",
+        data: {
+          header: "Shopping List App",
+          footer: "Developed by Sajib Sarker",
+          newItem: "",
+          items: [],
+        },
+        methods: {
+          saveItem: function () {
+            this.items.push({
+              itemName: this.newItem,
+              price: this.newPrice,
+            });
+            this.newItem = "";
+            this.newPrice = "";
+          },
+          delItem: function (index) {
+            this.items.splice(index, 1);
+          },
+        },
+      });
     </script>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
-
-</body>
-
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+      integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
